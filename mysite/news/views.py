@@ -16,7 +16,7 @@ def index(request):
 
 
 def get_category(request, category_id):
-    news = News.objects.filter(id=category_id)
+    news = News.objects.filter(category=category_id)
     category = Category.objects.get(id=category_id)
     return render(request, 'news/category.html', {'news': news, 'category': category})
 
@@ -31,7 +31,7 @@ def add_news(request):
     if request.method == 'POST':
         form = NewsForm(request.POST)
         if form.is_valid():
-            news = News.objects.create(**form.cleaned_data)
+            news = form.save()
             return redirect(news)
     else:
         form = NewsForm()
